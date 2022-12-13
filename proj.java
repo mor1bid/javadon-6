@@ -8,33 +8,55 @@ public final class proj
     {
         Scanner work = new Scanner(System.in);
         HashSet<String> mac = new HashSet<>();
-        mac.add("8 GB, 50.0 GB, mac os, white");
-        mac.add( "8 GB, 64.0 GB, mac os, green");
-        mac.add("8 GB, 100.0 GB, linux, blue");
-        mac.add("16 GB, 1 TB, windows 10, red");
-        mac.add("8 GB, 40.0 GB, ubuntu, white");
-        mac.add("16 GB, 84.0 GB, windows 7, purple");
-        mac.add("7 GB, 50.0 GB, linux, black");
-        // Map<String, String> macc = new HashMap<>();
-        // System.out.println("Введите цифру, соответствующую необходимому критерию: ");
+        mac.add("8 GB, 50.0 GB, MAC OS, WHITE");
+        mac.add( "8 GB, 64.0 GB, MAC OS, GREEN");
+        mac.add("8 GB, 100.0 GB, LINUX, BLUE");
+        mac.add("16 GB, 1.0 TB, WINDOWS 10, RED");
+        mac.add("8 GB, 40.0 GB, UBUNTU, WHITE");
+        mac.add("16 GB, 84.0 GB, WINDOWS 7, PURPLE");
+        mac.add("7 GB, 50.0 GB, LINUX, BLACK");
         filters(work, mac);
     }
     public static void filters(Scanner work, Set<String> lib)
     {
-        System.out.println("Доступные критерии: \n(1)Оперативная память (2)Объём жёсткого диска (3)Операционная система (4)Цвет корпуса\nВводите требуемые критерии через Enter. Для завершения ввода нажмите Enter без ввода критерия:\n");
+        System.out.println("Доступные критерии: \n(1)Оперативная память, (2)Объём жёсткого диска, (3)Операционная система, (4)Цвет корпуса\nВводите номера требуемых критериев через Enter (максимум: 4 раза) \nДля завершения ввода нажмите Enter без ввода критерия:\n");
+
         ArrayList<String> crits = new ArrayList<>();
-        for (int i = 0; i<999; i++) {
+        for (int i = 0; i<4; i++) {
             String crit = work.nextLine();
             if (crit.equals("")) { i = 999; }
             else { crits.add(crit); }
         }
+        crits.add("");
+        System.out.println("Вводите параметры по желаемым критериям: \nДля завершения ввода нажмите Enter без ввода критерия:");
+        ArrayList<String> stats = new ArrayList<>();
+        for (int i = 0; i<crits.size(); i++) {
+            String stat = work.nextLine();
+            if (crits.get(i).equals("1") && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()))) {
+                System.out.println("Введите единицу измерения (GB, TB)");
+                String bytes = work.nextLine();
+                stat = stat + " " + bytes;
+                System.out.println("Вводите параметры по желаемым критериям:");
+            }
+            else if (crits.get(i).equals("2") && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()))) {
+                double hard = Double.parseDouble(stat); 
+                System.out.println("Введите единицу измерения (GB, TB)");
+                stat = Double.toString(hard);
+                String bytes = work.nextLine();
+                stat = stat + " " + bytes;
+                System.out.println("Вводите параметры по желаемым критериям:");
+            }
+            else {stat.toUpperCase();}
+            if (stat.equals("")) { i = 999; }
+            else { stats.add(stat); }
+        }
         int co = 0;
         for (String cha : lib) {
             String[] book = cha.split(", ");
-            for (int rac = 0; rac<crits.size(); rac++) {
+            for (int rac = 0; rac<stats.size(); rac++) {
                 for (String ter : book)
                 {
-                    if (crits.get(rac).equals(ter)) {
+                    if (stats.get(rac).equals(ter)) {
                         co++;
                         System.out.println(co + ". " + Arrays.toString(book));
                     }
