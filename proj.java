@@ -2,6 +2,7 @@
  * proj
  */
 import java.util.*;
+import java.lang.*;
 public final class proj 
 {
     public static void main(String[] args) 
@@ -21,34 +22,43 @@ public final class proj
     {
         System.out.println("Доступные критерии: \n(1)Оперативная память, (2)Объём жёсткого диска, (3)Операционная система, (4)Цвет корпуса\nВводите номера требуемых критериев через Enter (максимум: 4 раза) \nДля завершения ввода нажмите Enter без ввода критерия:\n");
 
-        ArrayList<String> crits = new ArrayList<>();
-        for (int i = 0; i<4; i++) {
-            String crit = work.nextLine();
-            if (crit.equals("")) { i = 999; }
-            else { crits.add(crit); }
+        ArrayList<Integer> crits = new ArrayList<>();
+        for (int i = 0; i<4;) {
+            String cr = work.nextLine();
+            if (!cr.chars().allMatch(Character::isDigit)) { System.out.println("Ошибка!"); }
+            else if (cr.equals("")) { i = 999; }
+            else { 
+                int it = Integer.parseInt(cr); 
+                crits.add(it); 
+                i++;
+            }
         }
-        crits.add("");
-        System.out.println("Вводите параметры по желаемым критериям: \nДля завершения ввода нажмите Enter без ввода критерия:");
+        crits.add(0);
+        System.out.println("Вводите параметры по желаемым критериям в том же порядке\nДля завершения ввода нажмите Enter без ввода критерия:");
         ArrayList<String> stats = new ArrayList<>();
         for (int i = 0; i<crits.size(); i++) {
             String stat = work.nextLine();
-            if (crits.get(i).equals("1") && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()))) {
+            if (crits.get(i) == 1 && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()-1))) {
                 System.out.println("Введите единицу измерения (GB, TB)");
                 String bytes = work.nextLine();
                 stat = stat + " " + bytes;
-                System.out.println("Вводите параметры по желаемым критериям:");
+                System.out.println("Вводите параметры по вашим критериям:");
             }
-            else if (crits.get(i).equals("2") && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()))) {
+            else if (crits.get(i) == 2 && Character.isDigit(stat.charAt(0)) && Character.isDigit(stat.charAt(stat.length()-1))) {
                 double hard = Double.parseDouble(stat); 
                 System.out.println("Введите единицу измерения (GB, TB)");
                 stat = Double.toString(hard);
                 String bytes = work.nextLine();
                 stat = stat + " " + bytes;
-                System.out.println("Вводите параметры по желаемым критериям:");
+                System.out.println("Вводите параметры по вашим критериям:");
             }
-            else {stat.toUpperCase();}
+            else if (crits.get(i) == 2 && Character.isDigit(stat.charAt(0))) {
+                String[] starts = stat.split(" ");
+                double hard = Double.parseDouble(starts[0]);
+                stat = Double.toString(hard) + " " + starts[1];
+            }
             if (stat.equals("")) { i = 999; }
-            else { stats.add(stat); }
+            else {stat = stat.toUpperCase(); stats.add(stat); }
         }
         int co = 0;
         for (String cha : lib) {
