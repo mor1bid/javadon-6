@@ -2,7 +2,6 @@
  * proj
  */
 import java.util.*;
-import java.lang.*;
 public final class proj 
 {
     public static void main(String[] args) 
